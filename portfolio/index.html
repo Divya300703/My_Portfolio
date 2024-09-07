@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Custom Animations */
+        @keyframes fade-in-down {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fade-in-up {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-down {
+            animation: fade-in-down 1s ease-out forwards;
+        }
+
+        .animate-fade-in-up {
+            animation: fade-in-up 1s ease-out forwards;
+        }
+        
+
+        /* Lighting Effect */
+        .lighting-effect {
+            position: relative;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .lighting-effect::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 70%);
+            transform: scale(0);
+            transition: transform 0.5s ease;
+            z-index: 1;
+        }
+
+        .lighting-effect:hover::before {
+            transform: scale(1);
+        }
+
+     /* 3D Card Effect */
+     .card-container {
+        perspective: 1000px;
+    }
+
+    .card {
+        width: 100%;
+        height: 200px;
+        position: relative;
+        cursor: pointer;
+        transition: transform 1s; /* Adjust duration as needed */
+    }
+
+    .card:hover .card-inner {
+        transform: rotateY(180deg);
+    }
+
+    .card-inner {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transition: transform 1s;
+        transform-style: preserve-3d;
+        transform: rotateY(0deg); /* Ensure initial state is 0 */
+    }
+
+    .card-front,
+    .card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        box-sizing: border-box;
+        z-index: 1;
+    }
+
+    .card-front {
+        background: #fff;
+        color: #000;
+    }
+
+    .card-back {
+        background: #e8e6e6fc;
+        color: #ffffff;
+        transform: rotateY(180deg);
+        z-index: 2; /* Ensure it is above the front */
+        pointer-events: auto; /* Ensure pointer events are enabled */
+    }
+
+    .card-back a {
+        color: #fff;
+        text-decoration: underline;
+    }
+    #contact {
+        background: #f9f9f9; /* Optional background color */
+        border-radius: 8px; /* Optional border radius */
+    }
+    
+    .button-animate {
+        transition: background-color 0.3s, transform 0.3s; /* Ensure smooth animation */
+    }
+
+    .button-animate:hover {
+        transform: scale(1.05); /* Slightly scale up on hover */
+    }
+
+
+
+.skills .card {
+    width: 100%;
+    height: 200px;
+    position: relative;
+    cursor: pointer;
+    transition: transform 1s;
+}
+
+.skills .card:hover .card-inner {
+    transform: rotateY(360deg); /* 360-degree rotation */
+}
+
+.skills .card-inner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+    transform: rotateY(0deg);
+}
+
+.skills .card-front,
+.skills .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.skills .card-front {
+    background: #fff;
+    color: #000;
+}
+
+.skills .card-back {
+    background: #ffffff;
+    color: #fff;
+    transform: rotateY(180deg);
+}
+
+/* Separate effects for Certifications and Portfolio (no 360-degree rotation) */
+.certifications .card,
+.portfolio .card {
+    transition: transform 1s;
+    /* Add any specific effects for these sections */
+}
+
+.certifications .card:hover .card-inner,
+.portfolio .card:hover .card-inner {
+    /* Define different hover effects here */
+    transform: rotateY(180deg); /* Example for a simple 180-degree flip */
+}
+/* Ensure only the Certifications section has active links */
+.certifications .card-back a {
+            pointer-events: auto;
+        }
+        .portfolio .card-back {
+    background-color: rgba(50, 45, 45, 0.875); /* Light background to check visibility */
+}
+.portfolio .card-back a {
+    color: black; /* Make sure the link is visible */
+    pointer-events: auto;
+}
+
+       
+
+
+/* Button Hover Animation */
+.button-animate {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    transition: color 0.4s;
+}
+
+.button-animate::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) scaleY(1) scaleX(1.25);
+    top: 100%;
+    width: 140%;
+    height: 180%;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: top 0.4s ease-in-out, transform 0.4s ease-in-out;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.button-animate:hover::before {
+    top: -35%;
+    transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+}
+
+/* 360-Degree Rotation for Navigation Items */
+.nav-item {
+    transition: transform 1s; /* Adjust duration as needed */
+}
+
+.nav-item:hover {
+    transform: rotateX(360deg) rotateY(-360deg);
+}
+
+.nav-name {
+    transition: transform 1s; /* Adjust duration as needed */
+}
+
+.nav-name:hover {
+    transform: rotateX(360deg) rotateY(-360deg);
+}
+
+/* Dark Mode Overrides for Technical Skills and Portfolio Sections */
+.dark-mode .card-container .card-front,
+.dark-mode .card-container .card-back {
+    background-color: #1e1e1e; /* Dark background for card front and back */
+    color: #e0e0e0; /* Light text color */
+}
+
+.dark-mode .card-container .card-front h3,
+.dark-mode .card-container .card-back h3 {
+    color: #e0e0e0; /* Light text color for headings */
+}
+
+.dark-mode .card-container .card-front p,
+.dark-mode .card-container .card-back p {
+    color: #b0b0b0; /* Slightly darker light gray for paragraph text */
+}
+
+.dark-mode .card-container .card-back {
+    background-color: #2b2b2b; /* Darker background for card back */
+}
+
+.dark-mode .button-animate {
+    background-color: #2b2b2b; /* Dark button background in dark mode */
+    color: #e0e0e0; /* Light text color */
+}
+
+.dark-mode .button-animate:hover {
+    background-color: #1e1e1e; /* Darker button background on hover */
+}
+
+/* Adjust contact section styles in dark mode */
+.dark-mode #contact .bg-blue-600 {
+    background-color: #1e40af; /* Adjusted background for dark mode */
+}
+
+.dark-mode #contact .text-gray-700 {
+    color: #0a0a0a; /* Light text color */
+}
+
+
+
+/* Button Hover Animation */
+.button-animate {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    transition: color 0.4s;
+}
+
+.button-animate::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) scaleY(1) scaleX(1.25);
+    top: 100%;
+    width: 140%;
+    height: 180%;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: top 0.4s ease-in-out, transform 0.4s ease-in-out;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.button-animate:hover::before {
+    top: -35%;
+    transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+}
+
+/* 3D Rotation for Navigation Items */
+.nav-item {
+    transition: transform 0.3s ease;
+}
+
+.nav-item:hover {
+    transform: rotateX(140deg) rotateY(-140deg);
+}
+
+.nav-name {
+    transition: transform 0.3s ease;
+}
+
+.nav-name:hover {
+    transform: rotateX(140deg) rotateY(-140deg);
+}
+
+/* Dark Mode */
+.dark-mode {
+    background-color: #1a202c;
+    color: #131414;
+}
+
+.dark-mode .bg-blue-800 {
+    background-color: #2d3748;
+}
+
+.dark-mode .bg-blue-600 {
+    background-color: #4a5568;
+}
+
+.dark-mode .text-gray-700 {
+    color: #0d0d0d;;
+}
+
+.dark-mode .bg-blue-900 {
+    background-color: #0f1010;
+}
+
+.dark-mode .bg-blue-700 {
+    background-color: #2b6cb0;
+}
+
+
+
+/* Button Hover Animation */
+/* Consolidated Button Hover Animation */
+.button-animate {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    transition: color 0.4s;
+}
+
+.button-animate::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) scaleY(1) scaleX(1.25);
+    top: 100%;
+    width: 140%;
+    height: 180%;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: top 0.4s ease-in-out, transform 0.4s ease-in-out;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.button-animate:hover::before {
+    top: -35%;
+    transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+}
+
+/* Consolidated 3D Rotation for Navigation Items */
+.nav-item, .nav-name {
+    transition: transform 0.3s ease;
+}
+
+.nav-item:hover, .nav-name:hover {
+    transform: rotateX(140deg) rotateY(-140deg);
+}
+
+/* 3D Rotation for Navigation Items */
+.nav-item {
+    transition: transform 0.3s ease;
+}
+
+.nav-item:hover {
+    transform: rotateX(80deg) rotateY(-80deg);
+}
+
+.nav-name {
+    transition: transform 0.3s ease;
+}
+
+.nav-name:hover {
+    transform: rotateX(80deg) rotateY(-80deg);
+}
+
+/* Dark Mode */
+.dark-mode {
+    background-color: #1a202c;
+    color: #080808;
+}
+
+.dark-mode .bg-blue-800 {
+    background-color: #2d3748;
+}
+
+.dark-mode .bg-blue-600 {
+    background-color: #4a5568;
+}
+
+.dark-mode .text-gray-700 {
+    color: #edf2f7;
+}
+
+.dark-mode .bg-blue-900 {
+    background-color: #2b6cb0;
+}
+
+.dark-mode .bg-blue-700 {
+    background-color: #2b6cb0;
+    /* Custom Width for Java and MySQL Skill Cards */
+
+}
+        /* Button Hover Animation */
+        .button-animate {
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            transition: color 0.4s;
+        }
+        .dark-mode #contact {
+    background-color: #2d3748; /* Darker background color */
+    color: #e2e8f0; /* Softer light text color */
+}
+
+.dark-mode #contact h2 {
+    color: #1e40af; /* Teal heading color */
+}
+
+.dark-mode #contact p, 
+.dark-mode #contact a {
+    color: #cbd5e0; /* Softer light paragraph and link color */
+}
+
+.dark-mode #contact a:hover {
+    color: #f6ad55; /* Warm orange link hover color */
+}
+
+.dark-mode #contact .button-animate {
+    background-color: #b481e6; /* Teal button background color */
+    color: #f3f5f8; /* Darker button text color */
+}
+
+.dark-mode #contact .button-animate:hover {
+    background-color: #4fd1c5; /* Slightly darker teal button background on hover */
+}
+
+
+        .button-animate::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%) scaleY(1) scaleX(1.25);
+            top: 100%;
+            width: 140%;
+            height: 180%;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: top 0.4s ease-in-out, transform 0.4s ease-in-out;
+            border-radius: 50%;
+            z-index: -1;
+        }
+        
+
+        .button-animate:hover::before {
+            top: -35%;
+            transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+        }
+
+       
+    </style>
+</head>
+
+<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-blue-800 text-white py-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-3xl font-bold nav-name">Divya Priya S</a>
+            <ul class="flex space-x-6">
+                <li><a href="#about" class="hover:text-blue-300 nav-item">About Me</a></li>
+                <li><a href="#portfolio" class="hover:text-blue-300 nav-item">Projects</a></li>
+                <li><a href="#skills" class="hover:text-blue-300 nav-item">Skills</a></li>
+                <li><a href="#contact" class="hover:text-blue-300 nav-item">Contact</a></li>
+                <li><button id="toggleDarkMode" class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded">Toggle Dark Mode</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-cover bg-center h-screen text-gray-800 flex items-center justify-center"
+        style="background-image: url('https://source.unsplash.com/1600x900/?technology,code'); background-color: rgba(109, 100, 100, 0.137);">
+        <div class="text-center">
+            <h1 class="text-5xl font-bold mb-4 animate-fade-in-down text-blue-900">Welcome to My Portfolio</h1>
+            <p class="text-xl mb-8 animate-fade-in-up text-gray-700">Showcasing my work and passion for Web Design.</p>
+            <a href="#portfolio"
+                class="bg-blue-800 hover:bg-blue-900 text-white px-6 py-3 rounded-lg button-animate">Explore My
+                Work</a>
+        </div>
+    </section>
+
+<!-- About Me Section -->
+<section id="about" class="container mx-auto my-16 p-4">
+    <h2 class="text-3xl font-semibold text-blue-800 text-center mb-8">About Me</h2>
+    <div class="flex flex-wrap justify-center">
+        <div class="w-full md:w-1/2 lg:w-1/3">
+            <img src="divya.jpg" alt="Your Photo"
+                class="rounded-full shadow-lg mx-auto mb-8 w-64 h-64 object-cover object-top transition-transform transform hover:scale-110 duration-500">
+        </div>
+        <div class="w-full md:w-1/2 lg:w-2/3">
+            <p class="text-gray-700 text-lg leading-relaxed">
+                I am an aspiring web developer with a passion for creating dynamic and user-friendly web experiences. Currently pursuing a degree in MCA, I have hands-on experience working on various web development projects using technologies like HTML, CSS, JavaScript, and Python. My goal is to contribute to impactful projects that enhance user interaction and drive business growth. I thrive on solving complex problems and am always eager to learn new tools and techniques to build efficient and innovative web solutions.
+            </p>
+        </div>
+    </div>
+</section>
+
+  <!-- Skills Section -->
+  <section id="skills" class="container mx-auto my-16 p-4 skills">
+    <h2 class="text-3xl font-semibold text-blue-800 text-center mb-8">Technical Skills</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Skill 1 -->
+        <div class="card-container">
+            <div class="card lighting-effect">
+                <div class="card-inner">
+                    <div class="card-front flex flex-col items-center justify-center p-4">
+                        <h3 class="text-xl font-semibold mb-4">HTML</h3>
+                        <p>A markup language used for structuring web content. Experienced in creating semantic HTML and responsive designs.</p>
+                    </div>
+                    <div class="card-back"></div> <!-- Empty back -->
+                </div>
+            </div>
+        </div>
+        <!-- Skill 2 -->
+        <div class="card-container">
+            <div class="card lighting-effect">
+                <div class="card-inner">
+                    <div class="card-front flex flex-col items-center justify-center p-4">
+                        <h3 class="text-xl font-semibold mb-4">CSS</h3>
+                        <p>Styling language for designing web pages. Proficient in creating responsive layouts and animations using CSS.</p>
+                    </div>
+                    <div class="card-back"></div> <!-- Empty back -->
+                </div>
+            </div>
+        </div>
+        <!-- Skill 3 -->
+        <div class="card-container">
+            <div class="card lighting-effect">
+                <div class="card-inner">
+                    <div class="card-front flex flex-col items-center justify-center p-4">
+                        <h3 class="text-xl font-semibold mb-4">JavaScript</h3>
+                        <p>Scripting language for interactive web features. Skilled in DOM manipulation, event handling, and JavaScript frameworks.</p>
+                    </div>
+                    <div class="card-back"></div> <!-- Empty back -->
+                </div>
+            </div>
+        </div>
+        <!-- Skill 4 -->
+        <div class="card-container">
+            <div class="card lighting-effect">
+                <div class="card-inner">
+                    <div class="card-front flex flex-col items-center justify-center p-4">
+                        <h3 class="text-xl font-semibold mb-4">Python</h3>
+                        <p>Programming language for web development and data analysis. Experienced with Python libraries and frameworks for backend development.</p>
+                    </div>
+                    <div class="card-back"></div> <!-- Empty back -->
+                </div>
+            </div>
+        </div>
+        <!-- Skill 5 -->
+        <div class="card-container">
+            <div class="card lighting-effect">
+                <div class="card-inner">
+                    <div class="card-front flex flex-col items-center justify-center p-4">
+                        <h3 class="text-xl font-semibold mb-4">Java</h3>
+                        <p>Object-oriented programming language used for building cross-platform applications. Proficient in developing scalable and efficient Java applications.</p>
+                    </div>
+                    <div class="card-back"></div> <!-- Empty back -->
+                </div>
+            </div>
+        </div>
+        <!-- Skill 6 -->
+        <div class="card-container">
+            <div class="card lighting-effect">
+                <div class="card-inner">
+                    <div class="card-front flex flex-col items-center justify-center p-4">
+                        <h3 class="text-xl font-semibold mb-4">MySQL</h3>
+                        <p>Relational database management system. Experienced in designing, querying, and optimizing databases for web applications.</p>
+                    </div>
+                    <div class="card-back"></div> <!-- Empty back -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Certifications Section -->
+<section id="certifications" class="container mx-auto my-16 p-4 certifications">
+    <h2 class="text-3xl font-semibold text-blue-800 text-center mb-8">Certifications</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Certification 1 with Lighting Effect and 3D effect -->
+        <div class="card-container">
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-front flex flex-col items-center justify-center p-4">
+                        <h3 class="text-xl font-semibold mb-4">NPTEL</h3>
+                        <p>The Joy of Computing Using Python",gaining proficiency in Python programming, problem-solving.</p>
+                    </div>
+                    <div class="card-back flex items-center justify-center">
+                        <a href="https://drive.google.com/file/d/105Q7t8NpI6i7e2EgOicSHnUPrhE403nf/view?usp=drivesdk" target="_blank" class="text-xl font-semibold">View Certification</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Certification 2 with Lighting Effect and 3D effect -->
+        <!-- <div class="card-container">
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-front flex flex-col items-center justify-center p-4">
+                        <h3 class="text-xl font-semibold mb-4">Certification 2</h3>
+                        <p>Certification details, issuing organization, and date. Brief description of what the certification covers.</p>
+                    </div>
+                    <div class="card-back flex items-center justify-center">
+                        <a href="https://example.com/certification2" target="_blank" class="text-xl font-semibold">View Certification</a>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <!-- Certification 3 with Lighting Effect and 3D effect -->
+        <!-- <div class="card-container">
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-front flex flex-col items-center justify-center p-4">
+                        <h3 class="text-xl font-semibold mb-4">Certification 3</h3>
+                        <p>Certification details, issuing organization, and date. Brief description of what the certification covers.</p>
+                    </div>
+                    <div class="card-back flex items-center justify-center">
+                        <a href="https://example.com/certification3" target="_blank" class="text-xl font-semibold">View Certification</a>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</section>
+
+   <!-- Portfolio Section -->
+<section id="portfolio" class="container mx-auto my-16 p-4">
+    <h2 class="text-3xl font-semibold text-blue-800 text-center mb-8">Projects</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Portfolio Item 1 with Lighting Effect and 3D effect -->
+        <div class="card-container">
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-front flex flex-col items-center justify-center p-4">
+                        <h3 class="text-xl font-semibold mb-4">Parent Faculty Interaction</h3>
+                        <p>Developed and implemented this project using PHP MySQL, facilitating seamless communication between parents and faculty regarding student progress,events and including messaging, meeting scheduling,contact information updating.</p>
+                    </div>
+                    <div class="card-back flex items-center justify-center">
+                        <a href="https://github.com/Divya300703/Parent_Faculty_Interaction" target="_blank" class="text-xl font-semibold">View Project</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio Item 2 with Lighting Effect and 3D effect -->
+        <div class="card-container">
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-front flex flex-col items-center justify-center p-4">
+                        <h3 class="text-xl font-semibold mb-4">Object Recognition and Features Matching</h3>
+                        <p>Developed a project using Python and OpenCV to identify objects in images and find matching features across different images.</p>
+                    </div>
+                    <div class="card-back flex items-center justify-center">
+                        <a href="https://github.com/Divya300703/Object-Recognition-and-Feature-Matching" target="_blank" class="text-xl font-semibold">View Project</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio Item 3 with Lighting Effect and 3D effect -->
+        <!-- <div class="card-container">
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-front flex flex-col items-center justify-center p-4">
+                        <h3 class="text-xl font-semibold mb-4">Portfolio Item 3</h3>
+                        <p>Brief description of the project, technologies used, and its purpose.</p>
+                    </div>
+                    <div class="card-back flex items-center justify-center">
+                        <a href="https://example.com/portfolio3" target="_blank" class="text-xl font-semibold">View Project</a>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <!-- Portfolio Item 4 with Lighting Effect and 3D effect -->
+        <!-- <div class="card-container">
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-front flex flex-col items-center justify-center p-4">
+                        <h3 class="text-xl font-semibold mb-4">Portfolio Item 4</h3>
+                        <p>Brief description of the project, technologies used, and its purpose.</p>
+                    </div>
+                    <div class="card-back flex items-center justify-center">
+                        <a href="https://example.com/portfolio4" target="_blank" class="text-xl font-semibold">View Project</a>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</section>
+
+
+    <!-- Contact Section -->
+<section id="contact" class="container mx-auto my-16 p-4">
+    <h2 class="text-3xl font-semibold text-blue-800 text-center mb-8">Get In Touch</h2>
+    <div class="flex flex-col items-center">
+        <p class="text-lg text-gray-700 mb-4">Feel free to reach out to me for any inquiries or collaborations.</p>
+        <a href="mailto:sdivyapriya1521@gmail.com"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-all duration-300">Contact Me</a>
+    </div>
+</section>
+    
+
+    <!-- Footer -->
+    <footer class="bg-blue-800 text-white py-6">
+        <div class="container mx-auto text-center">
+            <p class="text-sm">&copy; 2024 Divya Priya. All rights reserved.</p>
+            <p class="text-sm">Designed with ❤ using HTML, CSS, and Tailwind CSS</p>
+            <div class="mt-4">
+                <a href="https://www.linkedin.com/in/divya-priya-s-4825a3296" class="hover:text-blue-300">LinkedIn</a> | 
+                <a href="https://github.com/Divya300703" class="hover:text-blue-300">GitHub</a> | 
+                <a href="https://www.instagram.com/.dp.07?igsh=MW5qeGdlamgydGJ0Nw==" class="hover:text-blue-300">Instagram</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Add 3D hover effect to navigation items
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('mouseover', () => {
+                item.style.transform = 'rotateX(10deg) rotateY(-10deg)';
+                item.style.transition = 'transform 0.3s ease';
+            });
+
+            item.addEventListener('mouseout', () => {
+                item.style.transform = 'rotateX(0) rotateY(0)';
+                item.style.transition = 'transform 0.3s ease';
+            });
+        });
+
+        // Add 3D hover effect to the name in the navigation
+        const navName = document.querySelector('.nav-name');
+        navName.addEventListener('mouseover', () => {
+            navName.style.transform = 'rotateX(10deg) rotateY(-10deg)';
+            navName.style.transition = 'transform 0.3s ease';
+        });
+
+        navName.addEventListener('mouseout', () => {
+            navName.style.transform = 'rotateX(0) rotateY(0)';
+            navName.style.transition = 'transform 0.3s ease';
+        });
+
+        // Toggle Dark Mode
+        const toggleDarkMode = document.getElementById('toggleDarkMode');
+        const body = document.body;
+
+        toggleDarkMode.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+        });
+        
+        
+    </script>
+</body>
+
+</html>
